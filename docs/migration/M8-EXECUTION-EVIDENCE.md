@@ -63,3 +63,17 @@ M8 execution authority is now **VERIFIED for the recorded workflow run and scope
 M8 as a whole remains **PARTIALLY_VERIFIED** because semantic completeness and broader runtime extraction/release gates remain open.
 
 **Rule:** successful execution is evidence of execution; it is not automatically evidence of semantic completeness.
+
+
+## Latest head re-execution
+
+After the evidence-document commits, CI re-executed the workflow at the latest observed commit:
+
+- commit: `c97eb65c94ae0beacb0036b7e6834f11334b45d8`
+- workflow run: `37351906933`
+- result: SUCCESS
+- jobs: all three SUCCESS
+- GPJK artifact: `11363261131`
+- artifact SHA-256: `sha256:6c9d694cc060d25263efea21e4691a198439ac9677cac4184e55c82e94ac3a05`
+
+This confirms that the current extraction branch continues to pass the recorded runtime and fixture/reference checks after the M8 documentation changes.
