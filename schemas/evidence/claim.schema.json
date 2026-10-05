@@ -1,6 +1,6 @@
 {
   "$schema":"https://json-schema.org/draft/2020-12/schema",
-  "title":"Agent Claim",
+  "$id":"https://github.com/Abdus2023/reusable-process-system/schema/evidence/claim.schema.json","title":"Process Assurance Claim",
   "type":"object",
   "required":["claim_id","statement","scope","required_status","evidence_ids"],
   "properties":{
