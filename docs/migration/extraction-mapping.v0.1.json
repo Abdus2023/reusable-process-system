@@ -1,0 +1,163 @@
+{
+  "schema": "reusable-process-system.extraction-mapping/1",
+  "version": "0.1.0",
+  "status": "FROZEN_FOR_EXTRACTION",
+  "source": {
+    "repository": "Abdus2023/Kerno",
+    "ref": "agent/reusable-verification-skills",
+    "commit": "d1bf55e09de6a88e4a79e01084e1f0ac0cae9c99",
+    "root": ".agent"
+  },
+  "target": {
+    "repository": "Abdus2023/reusable-process-system"
+  },
+  "rules": [
+    "Extract by responsibility, not directory.",
+    "Core must not depend on Kerno identity or GPJK syntax/semantics.",
+    "GPJK material belongs under integrations/gpjk.",
+    "Profiles remain optional domain workflows.",
+    "Adapters remain authority-specific.",
+    "Do not claim execution verification from static extraction."
+  ],
+  "skills": {
+    "core": [
+      "skill-creator",
+      "process-kernel",
+      "transcript-process-extraction",
+      "process-specification",
+      "process-orchestrator",
+      "process-conformance",
+      "process-release",
+      "evidence-ledger",
+      "evidence-bundle",
+      "execution-evidence",
+      "execution-verification",
+      "evidence-led-verification",
+      "continuation-controller",
+      "agent-workflow",
+      "adapter-contracts"
+    ],
+    "gpjk": [
+      "gpjk-reference-resolution",
+      "gpjk-expression-evaluation",
+      "gpjk-state-machine",
+      "gpjk-authorization",
+      "gpjk-temporal-verification",
+      "gpjk-interchange",
+      "gpjk-governance"
+    ],
+    "profiles": [
+      "repo-deep-audit",
+      "repo-engineering-plan",
+      "repository-inventory",
+      "runtime-trust-design",
+      "protocol-freeze",
+      "federation-design",
+      "market-design"
+    ],
+    "adapters": [
+      "repo-audit-adapter",
+      "github-acquisition"
+    ]
+  },
+  "tools": {
+    "core": [
+      "process-model.schema.json",
+      "process-decomposition.schema.json",
+      "process-tool.schema.json",
+      "skill-contract.schema.json",
+      "conformance-manifest.schema.json",
+      "process-release-manifest.schema.json",
+      "evidence-record.json",
+      "verification-gate.json",
+      "workflow.json",
+      "claim.schema.json",
+      "release-gate.json",
+      "execution-evidence.schema.json",
+      "execution-claim.schema.json",
+      "execution-verification.schema.json",
+      "evidence-ledger.schema.json",
+      "conformance-suite.schema.json",
+      "harness-manifest.json",
+      "differential-conformance.schema.json"
+    ],
+    "gpjk": [
+      "gpjk-reference-resolution.schema.json",
+      "gpjk-expression-evaluation.schema.json",
+      "gpjk-state-transition.schema.json",
+      "gpjk-authorization.schema.json",
+      "gpjk-temporal-verification.schema.json",
+      "gpjk-interchange.schema.json",
+      "gpjk-governance-decision.schema.json"
+    ],
+    "continuation": [
+      "continuation-state.schema.json"
+    ],
+    "repository": [
+      "repository-snapshot.json",
+      "repository-inventory.schema.json",
+      "audit-artifact.schema.json",
+      "evidence-bundle.schema.json"
+    ]
+  },
+  "runtime": [
+    {
+      "source": ".agent/bin/agent-runner.ts",
+      "target": "runtimes/reference/process-runner.ts",
+      "action": "REWRITE",
+      "reason": "Kerno-era paths/state assumptions; preserve orchestration contract, repair control flow."
+    },
+    {
+      "source": ".agent/bin/acquire-and-audit.ts",
+      "target": "adapters/repository/acquire-and-audit.ts",
+      "action": "SPLIT",
+      "reason": "Composition of GitHub acquisition and evidence bundling."
+    },
+    {
+      "source": ".agent/bin/adapters/audit-pipeline.ts",
+      "target": "adapters/repository/audit-pipeline.ts",
+      "action": "MOVE/REWRITE"
+    },
+    {
+      "source": ".agent/bin/adapters/evidence-bundle.ts",
+      "target": "adapters/repository/evidence-bundle.ts",
+      "action": "MOVE/REWRITE"
+    },
+    {
+      "source": ".agent/bin/adapters/execution-evidence.ts",
+      "target": "adapters/agent-runtime/execution-evidence.ts",
+      "action": "REWRITE",
+      "reason": "Preserve exact snapshot binding; strengthen validation."
+    },
+    {
+      "source": ".agent/bin/adapters/execution-verification.ts",
+      "target": "core/verification/execution-verification.ts",
+      "action": "REWRITE",
+      "reason": "Generic contract; implementation must validate evidence sufficiency beyond simple matching."
+    },
+    {
+      "source": ".agent/bin/adapters/github-acquisition.ts",
+      "target": "adapters/github/acquisition.ts",
+      "action": "MOVE/REWRITE"
+    }
+  ],
+  "conformance": {
+    "generic": "conformance/framework",
+    "gpjk": "integrations/gpjk/conformance",
+    "action": "SPLIT",
+    "rule": "Fixture presence is not execution evidence."
+  },
+  "unresolved": [
+    ".agent/conformance/run-core-reference.py implementation dependency audit",
+    ".agent/conformance/run-fixture-shape.py implementation dependency audit",
+    "exact cross-reference audit of every extracted artifact"
+  ],
+  "gates": {
+    "M1": "FOUNDATION",
+    "M2": "CLASSIFICATION",
+    "M3": "DEPENDENCY_AUDIT",
+    "M4": "SEMANTIC_BOUNDARY",
+    "M5": "EXTRACTION_MAPPING_FROZEN",
+    "next": "M6_CONTROLLED_EXTRACTION"
+  }
+}
