@@ -1,6 +1,6 @@
 {
   "$schema":"https://json-schema.org/draft/2020-12/schema",
-  "$id":"https://github.com/Abdus2023/reusable-process-system/schema/process-tool.schema.json",
+  "$id":"https://github.com/Abdus2023/reusable-process-system/schema/tool/process-tool.schema.json",
   "title":"Reusable Process Tool Contract",
   "type":"object",
   "required":["name","description","input","output","errors","deterministic"],
