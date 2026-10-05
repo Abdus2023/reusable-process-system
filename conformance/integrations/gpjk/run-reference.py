@@ -89,7 +89,7 @@ def main():
     summary={s:sum(x["status"]==s for x in results) for s in ("PASS","FAIL","ERROR")}
     report={"report":"gpjk-conformance-execution","version":"1.1.0",
             "created":datetime.now(timezone.utc).isoformat(),
-            "implementation":{"name":"kerno-gpjk-reference-runner","python":platform.python_version()},
+            "implementation":{"name":"gpjk-reference-runner","python":platform.python_version()},
             "fixtures":list(SUITES),"cases":results,"summary":summary,
             "exit_status":0 if summary["FAIL"]+summary["ERROR"]==0 else 1,
             "claim_boundary":"Execution report; not certification."}
