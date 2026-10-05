@@ -1,6 +1,6 @@
 {
   "$schema":"https://json-schema.org/draft/2020-12/schema",
-  "$id":"https://github.com/Abdus2023/reusable-process-system/schema/process-model.schema.json",
+  "$id":"https://github.com/Abdus2023/reusable-process-system/schema/process/process-model.schema.json",
   "title":"Reusable Process Model",
   "type":"object",
   "required":["id","version","inputs","outputs","steps","gates","evidence"],
