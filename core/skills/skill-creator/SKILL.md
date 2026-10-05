@@ -1,6 +1,6 @@
 ---
 name: skill-creator
-description: Create or refactor reusable agent skills from a proven workflow while preserving explicit inputs, outputs, gates, evidence requirements, failure modes, and tool contracts.
+description: Create or refactor reusable process skills from a proven workflow while preserving explicit inputs, outputs, gates, evidence requirements, failure modes, and tool contracts.
 ---
 
 # Skill Creator
@@ -29,10 +29,10 @@ Turn a repeated workflow into a composable skill without losing the reasoning an
 6. Define required evidence for every externally verifiable claim.
 7. Define failure states and safe stopping conditions.
 8. Define reusable inputs and outputs.
-9. Add references only when they are stable and actually required.
-10. Validate that the skill can run without hidden conversation state.
+9. Add references only when stable and actually required.
+10. Validate that the skill can run without hidden conversational state.
 11. Add negative examples for common failure modes.
-12. Register the skill in `.agent/skills/README.md` or an equivalent index.
+12. Register the skill in the process-system skill index or equivalent host-provided index.
 
 ## Skill contract
 
