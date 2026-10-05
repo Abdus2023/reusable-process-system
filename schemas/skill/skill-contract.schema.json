@@ -1,6 +1,6 @@
 {
   "$schema":"https://json-schema.org/draft/2020-12/schema",
-  "$id":"https://github.com/Abdus2023/reusable-process-system/schema/skill-contract.schema.json",
+  "$id":"https://github.com/Abdus2023/reusable-process-system/schema/skill/skill-contract.schema.json",
   "title":"Reusable Agent Skill Contract",
   "type":"object",
   "required":["name","description","purpose","inputs","outputs","procedure","gates","failureModes","evidencePolicy","continuation"],
