@@ -1,6 +1,6 @@
 {
   "$schema":"https://json-schema.org/draft/2020-12/schema",
-  "$id":"https://github.com/Abdus2023/reusable-process-system/schema/process-decomposition.schema.json",
+  "$id":"https://github.com/Abdus2023/reusable-process-system/schema/process/process-decomposition.schema.json",
   "title":"Process Decomposition Contract",
   "type":"object",
   "required":["source","operations","judgments","deterministic","artifacts"],
