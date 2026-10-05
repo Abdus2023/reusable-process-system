@@ -55,7 +55,7 @@ def adapt(suite,c):
     if suite=="gpjk-authorization":
         limit=c["policy"].get("limit")
         if limit is None:return "deny","default-deny"
-        return "permit", True if c["request"].get("amount",UNKNOWN) is not UNKNOWN and c["request"]["amount"]<=limit else ("deny", True)
+        return ("permit", True) if c["request"].get("amount",UNKNOWN) is not UNKNOWN and c["request"]["amount"]<=limit else ("deny", True)
     if suite=="gpjk-temporal-verification":
         if c.get("event")=="timeout" and not c.get("externalConfirmation"):return "INDETERMINATE","timeout-unconfirmed"
         return ("PASSED","validity") if "expired" not in c["id"] else ("FAILED","outside-validity")
