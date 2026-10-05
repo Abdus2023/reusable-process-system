@@ -1,6 +1,6 @@
 {
   "$schema":"https://json-schema.org/draft/2020-12/schema",
-  "$id":"https://github.com/Abdus2023/reusable-process-system/schema/process-release-manifest.schema.json",
+  "$id":"https://github.com/Abdus2023/reusable-process-system/schema/release/process-release-manifest.schema.json",
   "title":"Process Release Manifest",
   "type":"object",
   "required":["id","version","status","artifacts","gates"],
