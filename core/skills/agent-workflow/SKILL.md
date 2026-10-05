@@ -1,13 +1,13 @@
 ---
 name: agent-workflow
-description: Orchestrate the reusable Kerno verification skills as a deterministic state machine from repository snapshot through release gate.
+description: Orchestrate the reusable process system as a deterministic state machine from repository snapshot through release gate.
 ---
 
 # Agent Workflow
 
 ## Purpose
 
-Run the complete reusable workflow without relying on conversational memory.
+Run the complete reusable process workflow without relying on conversational memory.
 
 ## Workflow
 
@@ -37,10 +37,7 @@ Optional design stages may be skipped when the task does not require them, but s
 
 ## State artifact
 
-Persist:
-```
-the configured continuation-state location
-```
+Persist state at a location configured by the host runtime.
 
 Never rely on previous chat messages as state.
 
@@ -82,7 +79,8 @@ Never:
 - call an implementation "verified" because it looks correct
 - mix evidence from multiple commits without recording transitions
 
+## Adapter boundary
 
-## Adapters
+Runtime-specific adapters are selected by the host configuration. They may provide repository snapshots, observations, execution evidence, or verification operations, but their authority must be explicit.
 
-Reference implementations live under `.agent/adapters/`. They are deliberately authority-explicit. `repository-snapshot` binds the run to a Git object; `repo-audit` observes repository contents; `evidence-record` normalizes observations; `verification-gate` refuses a PASS when evidence is absent. These local adapters do not constitute CI or remote execution evidence.
+Local inspection is diagnostic evidence unless an execution authority explicitly establishes execution.
