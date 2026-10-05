@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Minimal fixture loader for .agent/conformance.
+"""Minimal GPJK fixture shape validator.
 
 This harness validates fixture shape and can run only the deterministic
 reference checks it explicitly implements. It never claims CI execution.
@@ -35,6 +35,8 @@ def check_fixture(path: Path):
 def main():
     total = 0
     for path in sorted(FIXTURES.glob("*.json")):
+        if path.name == "harness-manifest.json":
+            continue
         count = check_fixture(path)
         total += count
         print(f"OK {path.relative_to(ROOT)} cases={count}")
