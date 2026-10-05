@@ -1,0 +1,121 @@
+{
+  "schema": "reusable-process-system.extraction-manifest/1",
+  "version": "0.1.0",
+  "status": "PROVISIONAL",
+  "source": {
+    "repository": "Abdus2023/Kerno",
+    "ref": "agent/reusable-verification-skills",
+    "commit": "d1bf55e09de6a88e4a79e01084e1f0ac0cae9c99",
+    "path": ".agent"
+  },
+  "target": {
+    "repository": "Abdus2023/reusable-process-system",
+    "principle": "extract by responsibility, not by directory"
+  },
+  "identity_boundary": {
+    "reusable_process_system_is_kerno": false,
+    "reusable_process_system_is_gpjk": false,
+    "gpjk_is_integration_boundary": true
+  },
+  "classifications": {
+    "CORE": [
+      "skills/skill-creator",
+      "skills/process-kernel",
+      "skills/transcript-process-extraction",
+      "skills/process-specification",
+      "skills/process-orchestrator",
+      "skills/process-conformance",
+      "skills/process-release",
+      "skills/evidence-led-verification",
+      "skills/continuation-controller",
+      "skills/agent-workflow",
+      "skills/adapter-contracts",
+      "skills/evidence-ledger",
+      "skills/evidence-bundle",
+      "skills/execution-evidence",
+      "skills/execution-verification"
+    ],
+    "GPJK": [
+      "skills/gpjk-reference-resolution",
+      "skills/gpjk-expression-evaluation",
+      "skills/gpjk-state-machine",
+      "skills/gpjk-authorization",
+      "skills/gpjk-temporal-verification",
+      "skills/gpjk-interchange",
+      "skills/gpjk-governance",
+      "tools/gpjk-reference-resolution.schema.json",
+      "tools/gpjk-expression-evaluation.schema.json",
+      "tools/gpjk-state-transition.schema.json",
+      "tools/gpjk-authorization.schema.json",
+      "tools/gpjk-temporal-verification.schema.json",
+      "tools/gpjk-interchange.schema.json",
+      "tools/gpjk-governance-decision.schema.json",
+      "conformance/authorization.json",
+      "conformance/evidence-verification.json",
+      "conformance/expression-evaluation.json",
+      "conformance/governance.json",
+      "conformance/interchange.json",
+      "conformance/state-transitions.json",
+      "conformance/temporal-verification.json",
+      "conformance/run-core-reference.py",
+      "conformance/run-fixture-shape.py"
+    ],
+    "PROFILE": [
+      "skills/repo-deep-audit",
+      "skills/repo-engineering-plan",
+      "skills/repository-inventory",
+      "skills/runtime-trust-design",
+      "skills/protocol-freeze",
+      "skills/federation-design",
+      "skills/market-design"
+    ],
+    "ADAPTER": [
+      "skills/repo-audit-adapter",
+      "skills/github-acquisition",
+      "adapters/",
+      "bin/adapters/"
+    ],
+    "UNRESOLVED": [
+      "bin/agent-runner.ts",
+      "bin/acquire-and-audit.ts",
+      "bin/adapters/audit-pipeline.ts",
+      "conformance/DIFFERENTIAL-CONFORMANCE.md",
+      "conformance/EXTENDED-RUNNER.md",
+      "conformance/REFERENCE-HARNESS.md",
+      "conformance/SEMANTIC-ADAPTERS.md",
+      "conformance/harness-manifest.json",
+      "tools/conformance-manifest.schema.json",
+      "tools/conformance-suite.schema.json",
+      "tools/differential-conformance.schema.json",
+      "tools/repository-snapshot.json",
+      "tools/repository-inventory.schema.json"
+    ]
+  },
+  "known_generic_contracts": [
+    "tools/process-model.schema.json",
+    "tools/process-decomposition.schema.json",
+    "tools/skill-contract.schema.json",
+    "tools/process-tool.schema.json",
+    "tools/process-release-manifest.schema.json",
+    "tools/evidence-record.json",
+    "tools/verification-gate.json",
+    "tools/workflow.json",
+    "tools/claim.schema.json",
+    "tools/release-gate.json",
+    "tools/execution-evidence.schema.json",
+    "tools/execution-claim.schema.json",
+    "tools/execution-verification.schema.json",
+    "tools/evidence-ledger.schema.json",
+    "tools/evidence-bundle.schema.json",
+    "tools/continuation-state.schema.json"
+  ],
+  "migration_rules": [
+    "CORE must not import Kerno-specific modules.",
+    "GPJK integration must not silently redefine GPJK normative semantics.",
+    "PROFILE material must remain optional and layered.",
+    "ADAPTER material must preserve explicit authority and scope.",
+    "Static inspection must not be represented as execution evidence.",
+    "A source artifact is not considered migrated until dependency and coupling audit is complete."
+  ],
+  "next_gate": "M3 dependency audit"
+}
