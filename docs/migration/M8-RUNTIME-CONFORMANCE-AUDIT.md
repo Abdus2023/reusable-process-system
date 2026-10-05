@@ -39,3 +39,10 @@ This establishes execution evidence for the recorded workflow and exact snapshot
 5. Re-run CI after each normative change and bind the result to the exact commit/tree.
 
 M8 therefore remains PARTIALLY_VERIFIED.
+
+
+## Latest execution confirmation
+
+Run `37351906933` passed at commit `c97eb65c94ae0beacb0036b7e6834f11334b45d8`. All three jobs passed, including the standalone reference runtime tests and all 28 registered GPJK fixture cases. Artifact `11363261131` was produced with SHA-256 `6c9d694cc060d25263efea21e4691a198439ac9677cac4184e55c82e94ac3a05`.
+
+The execution sub-gate remains VERIFIED for this scoped snapshot. The overall M8 gate remains PARTIALLY_VERIFIED.
