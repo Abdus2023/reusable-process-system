@@ -5,13 +5,12 @@ class ContractInvariantTests(unittest.TestCase):
         schema = self._load("schemas/repository/repository-snapshot.schema.json")
         self.assertEqual(schema["required"], ["schema", "repository", "ref", "commit", "tree"])
 
-    def test_execution_evidence_declares_authority_and_scope(self):
+    def test_execution_evidence_declares_immutable_scope(self):
         schema = self._load("schemas/execution/execution-evidence.schema.json")
         self.assertIn("authority", schema["required"])
         self.assertIn("scope", schema["required"])
         self.assertEqual(schema["properties"]["scope"]["required"], ["repository", "commit", "tree"])
-        self.assertIn("commit", schema["properties"]["scope"]["properties"])
-        self.assertIn("tree", schema["properties"]["scope"]["properties"])
+        self.assertEqual(schema["properties"]["scope"]["required"], ["repository", "commit", "tree"])
 
     def test_not_observable_is_not_pass(self):
         schema = self._load("schemas/adapters/adapter-result.schema.json")
