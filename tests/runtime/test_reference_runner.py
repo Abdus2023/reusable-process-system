@@ -22,6 +22,16 @@ class ReferenceRunnerTests(unittest.TestCase):
         self.assertEqual(plan_next(state, WORKFLOW)["decision"], "ADAPTER_REQUIRED")
         self.assertEqual(plan_next(state, WORKFLOW)["stage"], "acquire")
 
+
+    def test_missing_workflow_stage_is_explicit_error(self):
+        state = {"stages": [{"id": "acquire", "status": "PENDING"}]}
+        workflow = {"stages": [
+            {"id": "acquire", "required": True},
+            {"id": "verify", "required": True},
+        ]}
+        with self.assertRaisesRegex(ValueError, "WORKFLOW_STAGE_ABSENT:verify"):
+            plan_next(state, workflow)
+
     def test_blocked_stage_stops_progress(self):
         state = {"stages": [
             {"id": "acquire", "status": "BLOCKED", "blockers": ["missing snapshot"]},
