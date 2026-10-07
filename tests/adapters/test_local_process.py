@@ -46,6 +46,11 @@ class LocalProcessAdapterTests(unittest.TestCase):
         self.assertEqual(result["decision"], "BLOCKED")
         self.assertEqual(result["reason"], "INVALID_OUTPUT_LIMIT")
 
+    def test_invalid_timeout_is_blocked(self):
+        result = run_process(["true"], target=self.target, timeout_seconds=0)
+        self.assertEqual(result["decision"], "BLOCKED")
+        self.assertEqual(result["reason"], "INVALID_TIMEOUT")
+
     def test_output_is_bounded_and_recorded(self):
         result = run_process(
             [sys.executable, "-c",
@@ -55,6 +60,7 @@ class LocalProcessAdapterTests(unittest.TestCase):
         )
         self.assertEqual(result["decision"], "EXECUTED")
         self.assertEqual(result["evidence"]["limitations"], ["OUTPUT_TRUNCATED"])
+        self.assertTrue(result["evidence"]["output_digest"].startswith("sha256:"))
 
     def test_default_output_limit_is_positive(self):
         self.assertGreater(DEFAULT_OUTPUT_LIMIT, 0)
