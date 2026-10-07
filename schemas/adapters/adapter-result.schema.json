@@ -7,8 +7,15 @@
     "schema": {"const": "reusable-process-system.adapter-result/1"},
     "decision": {"enum": ["EXECUTED", "BLOCKED", "NOT_OBSERVABLE", "FAILED"]},
     "evidence_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "evidence": {"$ref": "../execution/execution-evidence.schema.json"},
     "reason": {"type": "string"},
     "limitations": {"type": "array", "items": {"type": "string"}}
   },
+  "allOf": [
+    {
+      "if": {"properties": {"decision": {"const": "EXECUTED"}}},
+      "then": {"required": ["evidence", "evidence_ids"]}
+    }
+  ],
   "additionalProperties": false
 }
