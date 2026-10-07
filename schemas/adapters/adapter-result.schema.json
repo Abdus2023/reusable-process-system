@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Abdus2023/reusable-process-system/schema/adapters/adapter-result.schema.json",
+  "type": "object",
+  "required": ["schema", "decision"],
+  "properties": {
+    "schema": {"const": "reusable-process-system.adapter-result/1"},
+    "decision": {"enum": ["EXECUTED", "BLOCKED", "NOT_OBSERVABLE", "FAILED"]},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "reason": {"type": "string"},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}
