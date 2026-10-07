@@ -9,7 +9,7 @@
     "authority": {"type": "string", "enum": ["CI", "LOCAL", "EXTERNAL", "UNKNOWN"]},
     "kind": {"type": "string", "enum": ["EXECUTION", "INSPECTION", "OBSERVATION", "ARTIFACT", "UNKNOWN"]},
     "status": {"type": "string", "enum": ["PASS", "FAIL", "BLOCKED", "NOT_OBSERVABLE", "UNKNOWN"]},
-    "scope": {"type": "object", "required": ["repository"], "properties": {
+    "scope": {"type": "object", "required": ["repository", "commit", "tree"], "properties": {
       "repository": {"type": "string", "minLength": 1},
       "ref": {"type": "string"},
       "commit": {"type": "string"},
