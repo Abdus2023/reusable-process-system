@@ -5,7 +5,7 @@
   "required": ["schema", "status", "clean"],
   "properties": {
     "schema": {"const": "reusable-process-system.worktree-binding/1"},
-    "status": {"enum": ["CLEAN", "DIRTY", "NOT_OBSERVABLE"]},
+    "status": {"enum": ["CLEAN", "DIRTY", "NOT_OBSERVABLE", "MISMATCH", "BOUND"]},
     "clean": {"type": "boolean"},
     "reason": {"type": "string"}
   },
