@@ -14,7 +14,7 @@ ADAPTER_DECISIONS = frozenset({"EXECUTED", "BLOCKED", "NOT_OBSERVABLE", "FAILED"
 
 class AdapterRequest(Protocol):
     command: list[str]
-    snapshot: Mapping[str, str]
+    target: Mapping[str, object]
 
 
 class Adapter(Protocol):
