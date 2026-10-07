@@ -29,7 +29,7 @@ class ReferenceRunnerTests(unittest.TestCase):
             {"id": "acquire", "required": True},
             {"id": "verify", "required": True},
         ]}
-        with self.assertRaisesRegex(ValueError, "WORKFLOW_STAGE_ABSENT:verify"):
+        with self.assertRaisesRegex(ValueError, "REQUIRED_STAGE_ABSENT:verify"):
             plan_next(state, workflow)
 
     def test_blocked_stage_stops_progress(self):
