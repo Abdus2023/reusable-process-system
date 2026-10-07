@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Abdus2023/reusable-process-system/schema/execution/execution-environment.schema.json",
+  "type": "object",
+  "required": ["schema", "platform", "architecture", "runtime", "executable", "dependency_state", "binding"],
+  "properties": {
+    "schema": {"const": "reusable-process-system.execution-environment/1"},
+    "platform": {"type": "string", "minLength": 1},
+    "architecture": {"type": "string", "minLength": 1},
+    "runtime": {"type": "object", "required": ["name", "version"], "properties": {"name": {"type": "string", "minLength": 1}, "version": {"type": "string", "minLength": 1}}, "additionalProperties": false},
+    "executable": {"type": "object", "required": ["path", "identity"], "properties": {"path": {"type": "string", "minLength": 1}, "identity": {"type": "string", "minLength": 1}}, "additionalProperties": false},
+    "dependency_state": {"enum": ["DECLARED", "OBSERVED", "UNKNOWN", "NOT_OBSERVABLE"]},
+    "binding": {"enum": ["DECLARED", "BOUND", "UNBOUND", "NOT_OBSERVABLE"]},
+    "working_directory": {"type": "string"},
+    "network": {"enum": ["ALLOWED", "DENIED", "UNKNOWN"]},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}
