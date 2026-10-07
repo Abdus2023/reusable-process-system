@@ -40,7 +40,7 @@ def resolve_snapshot(
             "commit": "",
             "tree": "",
             "source": "LOCAL_GIT",
-            "limitations": ["REPOSITORY_PATH_NOT_FOUND"],
+            "limitations": ["SNAPSHOT_NOT_OBSERVABLE", "REPOSITORY_PATH_NOT_FOUND"],
         }
 
     try:
