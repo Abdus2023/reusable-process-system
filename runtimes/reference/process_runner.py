@@ -43,6 +43,8 @@ def plan_next(state: dict, workflow: dict) -> dict:
     stages = {x["id"]: x for x in state["stages"]}
     for definition in workflow["stages"]:
         stage_id = definition["id"]
+        if stage_id not in stages:
+            raise ValueError("WORKFLOW_STAGE_ABSENT:" + str(stage_id))
         stage = stages[stage_id]
         if stage["status"] == "BLOCKED":
             return {
