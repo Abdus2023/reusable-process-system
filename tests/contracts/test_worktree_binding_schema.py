@@ -13,7 +13,7 @@ class WorktreeBindingSchemaTests(unittest.TestCase):
         )
         self.assertEqual(
             set(document["properties"]["status"]["enum"]),
-            {"CLEAN", "DIRTY", "NOT_OBSERVABLE"},
+            {"CLEAN", "DIRTY", "NOT_OBSERVABLE", "MISMATCH", "BOUND"},
         )
 
 
