@@ -40,4 +40,4 @@ class ExecutionEnvironmentTests(unittest.TestCase):
         environment = dict(self.base, runtime={})
         valid, reason = validate_environment_contract(environment)
         self.assertFalse(valid)
-        self.assertEqual(reason, "INVALID_RUNTIME")
+        self.assertEqual(reason, "MISSING_FIELD:runtime")
