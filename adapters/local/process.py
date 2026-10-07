@@ -1,16 +1,19 @@
 """Reference local-process adapter.
 
-Execution requires an explicitly BOUND ExecutionTarget. Output capture is
-bounded so a child cannot force unbounded memory growth through stdout/stderr.
+Execution requires an explicitly BOUND ExecutionTarget. Output capture uses
+streaming reader threads and fixed-size buffers so captured evidence does not
+require retaining the child's complete stdout/stderr in memory.
 """
 
 from __future__ import annotations
 
 import hashlib
 import subprocess
+import threading
 from typing import Any, Mapping
 
 DEFAULT_OUTPUT_LIMIT = 1024 * 1024
+_READ_CHUNK_SIZE = 64 * 1024
 
 
 def _blocked(reason: str) -> dict[str, Any]:
@@ -19,6 +22,65 @@ def _blocked(reason: str) -> dict[str, Any]:
         "decision": "BLOCKED",
         "reason": reason,
     }
+
+
+def _capture_stream(stream: Any, limit: int, sink: bytearray) -> None:
+    """Drain a child pipe while retaining at most *limit* bytes."""
+    while True:
+        chunk = stream.read(_READ_CHUNK_SIZE)
+        if not chunk:
+            return
+        remaining = limit - len(sink)
+        if remaining > 0:
+            sink.extend(chunk[:remaining])
+
+
+def _run_bounded(
+    command: list[str],
+    *,
+    timeout_seconds: float,
+    output_limit: int,
+) -> tuple[int, bytes, bytes, bool]:
+    """Run a child while draining stdout/stderr into bounded buffers."""
+    process = subprocess.Popen(
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        stdin=subprocess.DEVNULL,
+    )
+    stdout = bytearray()
+    stderr = bytearray()
+    threads = [
+        threading.Thread(
+            target=_capture_stream,
+            args=(process.stdout, output_limit, stdout),
+            daemon=True,
+        ),
+        threading.Thread(
+            target=_capture_stream,
+            args=(process.stderr, output_limit, stderr),
+            daemon=True,
+        ),
+    ]
+    for thread in threads:
+        thread.start()
+
+    timed_out = False
+    try:
+        process.wait(timeout=timeout_seconds)
+    except subprocess.TimeoutExpired:
+        timed_out = True
+        process.kill()
+        process.wait()
+
+    for thread in threads:
+        thread.join(timeout=2.0)
+
+    for stream in (process.stdout, process.stderr):
+        if stream is not None:
+            stream.close()
+
+    return process.returncode, bytes(stdout), bytes(stderr), timed_out
 
 
 def run_process(
@@ -36,23 +98,17 @@ def run_process(
         return _blocked("EXECUTION_TARGET_NOT_BOUND")
     if not command:
         return _blocked("EMPTY_COMMAND")
+    if timeout_seconds <= 0:
+        return _blocked("INVALID_TIMEOUT")
     if output_limit <= 0:
         return _blocked("INVALID_OUTPUT_LIMIT")
 
     try:
-        completed = subprocess.run(
+        returncode, stdout, stderr, timed_out = _run_bounded(
             command,
-            check=False,
-            capture_output=True,
-            text=False,
-            timeout=timeout_seconds,
+            timeout_seconds=timeout_seconds,
+            output_limit=output_limit,
         )
-    except subprocess.TimeoutExpired:
-        return {
-            "schema": "reusable-process-system.adapter-result/1",
-            "decision": "FAILED",
-            "reason": "TIMEOUT",
-        }
     except OSError as exc:
         return {
             "schema": "reusable-process-system.adapter-result/1",
@@ -60,10 +116,15 @@ def run_process(
             "reason": "EXECUTION_ERROR:" + type(exc).__name__,
         }
 
-    stdout = completed.stdout[:output_limit]
-    stderr = completed.stderr[:output_limit]
+    if timed_out:
+        return {
+            "schema": "reusable-process-system.adapter-result/1",
+            "decision": "FAILED",
+            "reason": "TIMEOUT",
+        }
+
     output = stdout + stderr
-    truncated = len(completed.stdout) > output_limit or len(completed.stderr) > output_limit
+    truncated = len(stdout) >= output_limit or len(stderr) >= output_limit
     digest = "sha256:" + hashlib.sha256(output).hexdigest()
 
     evidence = {
@@ -71,7 +132,7 @@ def run_process(
         "evidence_id": digest,
         "authority": "LOCAL",
         "kind": "EXECUTION",
-        "status": "PASS" if completed.returncode == 0 else "FAIL",
+        "status": "PASS" if returncode == 0 else "FAIL",
         "scope": {
             "repository": str(target["repository"]),
             "commit": str(target["commit"]),
