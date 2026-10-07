@@ -1,8 +1,7 @@
 """Reference local-process adapter.
 
-The adapter is intentionally small: it executes an explicitly supplied command,
-captures bounded output, and emits an evidence record bound to the supplied
-repository snapshot. It never changes the verification decision itself.
+Execution requires an explicitly BOUND ExecutionTarget. Output capture is
+bounded so a child cannot force unbounded memory growth through stdout/stderr.
 """
 
 from __future__ import annotations
@@ -11,35 +10,41 @@ import hashlib
 import subprocess
 from typing import Any, Mapping
 
+DEFAULT_OUTPUT_LIMIT = 1024 * 1024
+
+
+def _blocked(reason: str) -> dict[str, Any]:
+    return {
+        "schema": "reusable-process-system.adapter-result/1",
+        "decision": "BLOCKED",
+        "reason": reason,
+    }
+
 
 def run_process(
     command: list[str],
     *,
-    snapshot: Mapping[str, str],
+    target: Mapping[str, object],
     timeout_seconds: float = 30.0,
+    output_limit: int = DEFAULT_OUTPUT_LIMIT,
 ) -> dict[str, Any]:
-    required = ("repository", "commit", "tree")
-    missing = [key for key in required if not snapshot.get(key)]
+    required = ("repository", "commit", "tree", "binding")
+    missing = [key for key in required if not target.get(key)]
     if missing:
-        return {
-            "schema": "reusable-process-system.adapter-result/1",
-            "decision": "BLOCKED",
-            "reason": "MISSING_IMMUTABLE_SCOPE:" + ",".join(missing),
-        }
-
+        return _blocked("MISSING_EXECUTION_TARGET:" + ",".join(missing))
+    if target["binding"] != "BOUND":
+        return _blocked("EXECUTION_TARGET_NOT_BOUND")
     if not command:
-        return {
-            "schema": "reusable-process-system.adapter-result/1",
-            "decision": "BLOCKED",
-            "reason": "EMPTY_COMMAND",
-        }
+        return _blocked("EMPTY_COMMAND")
+    if output_limit <= 0:
+        return _blocked("INVALID_OUTPUT_LIMIT")
 
     try:
         completed = subprocess.run(
             command,
             check=False,
             capture_output=True,
-            text=True,
+            text=False,
             timeout=timeout_seconds,
         )
     except subprocess.TimeoutExpired:
@@ -55,8 +60,10 @@ def run_process(
             "reason": "EXECUTION_ERROR:" + type(exc).__name__,
         }
 
-    status = "PASS" if completed.returncode == 0 else "FAIL"
-    output = (completed.stdout + completed.stderr).encode("utf-8")
+    stdout = completed.stdout[:output_limit]
+    stderr = completed.stderr[:output_limit]
+    output = stdout + stderr
+    truncated = len(completed.stdout) > output_limit or len(completed.stderr) > output_limit
     digest = "sha256:" + hashlib.sha256(output).hexdigest()
 
     evidence = {
@@ -64,13 +71,14 @@ def run_process(
         "evidence_id": digest,
         "authority": "LOCAL",
         "kind": "EXECUTION",
-        "status": status,
+        "status": "PASS" if completed.returncode == 0 else "FAIL",
         "scope": {
-            "repository": snapshot["repository"],
-            "commit": snapshot["commit"],
-            "tree": snapshot["tree"],
+            "repository": str(target["repository"]),
+            "commit": str(target["commit"]),
+            "tree": str(target["tree"]),
         },
         "output_digest": digest,
+        "limitations": ["OUTPUT_TRUNCATED"] if truncated else [],
     }
 
     return {
