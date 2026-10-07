@@ -9,6 +9,7 @@ class ContractInvariantTests(unittest.TestCase):
         schema = self._load("schemas/execution/execution-evidence.schema.json")
         self.assertIn("authority", schema["required"])
         self.assertIn("scope", schema["required"])
+        self.assertEqual(schema["properties"]["scope"]["required"], ["repository", "commit", "tree"])
         self.assertIn("commit", schema["properties"]["scope"]["properties"])
         self.assertIn("tree", schema["properties"]["scope"]["properties"])
 
