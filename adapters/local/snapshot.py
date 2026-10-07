@@ -46,7 +46,13 @@ def resolve_snapshot(
     try:
         commit = _git(cwd, "rev-parse", "HEAD")
         tree = _git(cwd, "rev-parse", "HEAD^{tree}")
-        if ref:\n            resolved_ref = ref\n        else:\n            try:\n                resolved_ref = _git(cwd, "symbolic-ref", "--short", "-q", "HEAD")\n            except RuntimeError:\n                resolved_ref = "DETACHED"
+        if ref:
+            resolved_ref = ref
+        else:
+            try:
+                resolved_ref = _git(cwd, "symbolic-ref", "--short", "-q", "HEAD")
+            except RuntimeError:
+                resolved_ref = "DETACHED"
     except (OSError, RuntimeError):
         return {
             "schema": "reusable-process-system.repository-snapshot/1",
