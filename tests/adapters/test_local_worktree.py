@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from adapters.local.worktree import resolve_worktree_binding
+from adapters.local.worktree import resolve_worktree_binding, validate_execution_target
 
 
 class LocalWorktreeBindingTests(unittest.TestCase):
@@ -38,6 +38,57 @@ class LocalWorktreeBindingTests(unittest.TestCase):
             result = resolve_worktree_binding(cwd)
             self.assertEqual(result["status"], "DIRTY")
             self.assertFalse(result["clean"])
+
+
+    def test_execution_target_requires_exact_commit_and_clean_worktree(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            cwd = self._repo(tmp)
+            commit = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                cwd=cwd, check=True, capture_output=True, text=True
+            ).stdout.strip()
+            tree = subprocess.run(
+                ["git", "rev-parse", "HEAD^{tree}"],
+                cwd=cwd, check=True, capture_output=True, text=True
+            ).stdout.strip()
+            result = validate_execution_target(
+                cwd,
+                snapshot={"repository": "example/repo", "commit": commit, "tree": tree},
+            )
+            self.assertEqual(result["status"], "BOUND")
+
+    def test_execution_target_rejects_commit_mismatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            cwd = self._repo(tmp)
+            result = validate_execution_target(
+                cwd,
+                snapshot={
+                    "repository": "example/repo",
+                    "commit": "0" * 40,
+                    "tree": "0" * 40,
+                },
+            )
+            self.assertEqual(result["status"], "MISMATCH")
+            self.assertTrue(result["clean"])
+
+    def test_execution_target_rejects_dirty_worktree(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            cwd = self._repo(tmp)
+            commit = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                cwd=cwd, check=True, capture_output=True, text=True
+            ).stdout.strip()
+            result = validate_execution_target(
+                cwd,
+                snapshot={"repository": "example/repo", "commit": commit, "tree": "unused"},
+            )
+            self.assertEqual(result["status"], "BOUND")
+            (cwd / "file.txt").write_text("changed\n", encoding="utf-8")
+            result = validate_execution_target(
+                cwd,
+                snapshot={"repository": "example/repo", "commit": commit, "tree": "unused"},
+            )
+            self.assertEqual(result["status"], "DIRTY")
 
     def test_missing_repository_is_not_observable(self):
         result = resolve_worktree_binding("/does/not/exist")
