@@ -10,12 +10,22 @@ class ContractInvariantTests(unittest.TestCase):
         self.assertIn("authority", schema["required"])
         self.assertIn("scope", schema["required"])
         self.assertEqual(schema["properties"]["scope"]["required"], ["repository", "commit", "tree"])
-        self.assertEqual(schema["properties"]["scope"]["required"], ["repository", "commit", "tree"])
 
     def test_not_observable_is_not_pass(self):
         schema = self._load("schemas/adapters/adapter-result.schema.json")
         self.assertIn("NOT_OBSERVABLE", schema["properties"]["decision"]["enum"])
         self.assertNotIn("PASS", schema["properties"]["decision"]["enum"])
+
+    def test_verified_result_requires_evidence(self):
+        schema = self._load("schemas/verification/verification-result.schema.json")
+        self.assertEqual(
+            schema["allOf"][0]["if"]["properties"]["decision"]["const"],
+            "VERIFIED",
+        )
+        self.assertEqual(
+            schema["allOf"][0]["then"]["properties"]["evidence_ids"]["minItems"],
+            1,
+        )
 
     def test_verification_has_explicit_non_verified_states(self):
         schema = self._load("schemas/verification/verification-result.schema.json")
