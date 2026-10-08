@@ -57,6 +57,16 @@ def validate_execution_target(
         if completed.returncode != 0:
             raise RuntimeError("GIT_HEAD_NOT_OBSERVABLE")
         head = completed.stdout.strip()
+        tree_completed = subprocess.run(
+            ["git", "rev-parse", "HEAD^{tree}"],
+            cwd=cwd,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        if tree_completed.returncode != 0:
+            raise RuntimeError("GIT_TREE_NOT_OBSERVABLE")
+        tree = tree_completed.stdout.strip()
     except (OSError, RuntimeError):
         return {
             "schema": "reusable-process-system.worktree-binding/1",
@@ -71,6 +81,14 @@ def validate_execution_target(
             "status": "MISMATCH",
             "clean": True,
             "reason": "HEAD_COMMIT_MISMATCH",
+        }
+
+    if tree != snapshot["tree"]:
+        return {
+            "schema": "reusable-process-system.worktree-binding/1",
+            "status": "MISMATCH",
+            "clean": True,
+            "reason": "HEAD_TREE_MISMATCH",
         }
 
     return {
