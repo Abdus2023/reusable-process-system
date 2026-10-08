@@ -1,1 +1,21 @@
-{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://github.com/Abdus2023/reusable-process-system/schema/verification/verification-result.schema.json","type":"object","required":["schema","decision","scope","evidence_ids"],"properties":{"schema":{"const":"reusable-process-system.verification-result/1"},"decision":{"enum":["VERIFIED","PARTIALLY_VERIFIED","PROVISIONAL","BLOCKED","CONTRADICTED","UNKNOWN"]},"scope":{"type":"string","minLength":1},"evidence_ids":{"type":"array","items":{"type":"string"},"uniqueItems":true},"limitations":{"type":"array","items":{"type":"string"}},"reason":{"type":"string"}},"additionalProperties":false}
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://github.com/Abdus2023/reusable-process-system/schema/verification/verification-result.schema.json",
+  "type":"object",
+  "required":["schema","decision","scope","evidence_ids"],
+  "properties":{
+    "schema":{"const":"reusable-process-system.verification-result/1"},
+    "decision":{"enum":["VERIFIED","PARTIALLY_VERIFIED","PROVISIONAL","BLOCKED","CONTRADICTED","UNKNOWN"]},
+    "scope":{"type":"string","minLength":1},
+    "evidence_ids":{"type":"array","items":{"type":"string","minLength":1},"uniqueItems":true},
+    "limitations":{"type":"array","items":{"type":"string"}},
+    "reason":{"type":"string"}
+  },
+  "allOf":[
+    {
+      "if":{"properties":{"decision":{"const":"VERIFIED"}}},
+      "then":{"properties":{"evidence_ids":{"minItems":1}}}
+    }
+  ],
+  "additionalProperties":false
+}
