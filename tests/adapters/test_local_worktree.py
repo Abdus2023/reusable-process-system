@@ -71,6 +71,20 @@ class LocalWorktreeBindingTests(unittest.TestCase):
             self.assertEqual(result["status"], "MISMATCH")
             self.assertTrue(result["clean"])
 
+    def test_execution_target_rejects_tree_mismatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            cwd = self._repo(tmp)
+            commit = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                cwd=cwd, check=True, capture_output=True, text=True
+            ).stdout.strip()
+            result = validate_execution_target(
+                cwd,
+                snapshot={"repository": "example/repo", "commit": commit, "tree": "0" * 40},
+            )
+            self.assertEqual(result["status"], "MISMATCH")
+            self.assertEqual(result["reason"], "HEAD_TREE_MISMATCH")
+
     def test_execution_target_rejects_dirty_worktree(self):
         with tempfile.TemporaryDirectory() as tmp:
             cwd = self._repo(tmp)
