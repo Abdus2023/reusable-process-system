@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Abdus2023/reusable-process-system/schema/execution/execution-evidence.schema.json",
+  "type": "object",
+  "required": ["schema", "evidence_id", "authority", "kind", "status", "scope"],
+  "properties": {
+    "schema": {"const": "reusable-process-system.execution-evidence/1"},
+    "evidence_id": {"type": "string", "minLength": 1},
+    "authority": {"type": "string", "enum": ["CI", "LOCAL", "EXTERNAL", "UNKNOWN"]},
+    "kind": {"type": "string", "enum": ["EXECUTION", "INSPECTION", "OBSERVATION", "ARTIFACT", "UNKNOWN"]},
+    "status": {"type": "string", "enum": ["PASS", "FAIL", "BLOCKED", "NOT_OBSERVABLE", "UNKNOWN"]},
+    "scope": {"type": "object", "required": ["repository", "commit", "tree"], "properties": {
+      "repository": {"type": "string", "minLength": 1},
+      "ref": {"type": "string"},
+      "commit": {"type": "string"},
+      "tree": {"type": "string"}
+    }, "additionalProperties": false},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "output_digest": {"type": "string"},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

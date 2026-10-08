@@ -1,0 +1,7 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://github.com/Abdus2023/reusable-process-system/schema/evidence/evidence-record.json",
+  "title":"Evidence Record Contract","type":"object","required":["source","locator","scope","observation","snapshot","extraction_method"],
+  "properties":{"source":{"type":"string"},"locator":{"type":"string"},"scope":{"type":"string"},"observation":{"type":"string"},"snapshot":{"type":"string"},"extraction_method":{"type":"string"},"evidence_id":{"type":"string"},"status":{"enum":["OBSERVED","NOT_FOUND","NOT_PRESENT","NOT_REACHABLE","NOT_OBSERVABLE","PARTIAL","STALE","MISMATCH","CONTRADICTED"]},"limitations":{"type":"array","items":{"type":"string"}}},
+  "additionalProperties":false
+}

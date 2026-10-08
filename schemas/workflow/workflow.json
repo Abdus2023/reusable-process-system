@@ -1,0 +1,22 @@
+{
+  "schema": "reusable-process-system.workflow/1",
+  "name": "deep-verification",
+  "stages": [
+    {"id":"acquire","required":true},
+    {"id":"label","required":true},
+    {"id":"extract","required":true},
+    {"id":"model","required":true},
+    {"id":"specify","required":true},
+    {"id":"decompose","required":true},
+    {"id":"contract","required":true},
+    {"id":"test","required":true},
+    {"id":"verify","required":true},
+    {"id":"package","required":true},
+    {"id":"release","required":true}
+  ],
+  "transition_rules": {
+    "verified_requires": ["verify"],
+    "release_requires": ["acquire", "verify", "release"],
+    "blocked_is_terminal_until_evidence_changes": true
+  }
+}

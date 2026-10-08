@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Abdus2023/reusable-process-system/schema/execution/execution-target.schema.json",
+  "type": "object",
+  "required": ["schema", "repository", "commit", "tree", "binding"],
+  "properties": {
+    "schema": {"const": "reusable-process-system.execution-target/1"},
+    "repository": {"type": "string", "minLength": 1},
+    "ref": {"type": "string"},
+    "commit": {"type": "string", "minLength": 1},
+    "tree": {"type": "string", "minLength": 1},
+    "binding": {"enum": ["BOUND", "UNBOUND"]},
+    "worktree_status": {
+      "enum": ["CLEAN", "DIRTY", "NOT_OBSERVABLE", "MISMATCH", "BOUND"]
+    }
+  },
+  "additionalProperties": false
+}

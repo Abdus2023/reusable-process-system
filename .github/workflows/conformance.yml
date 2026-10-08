@@ -1,0 +1,68 @@
+name: conformance
+
+on:
+  push:
+    branches: ["main", "extract/**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  reference-runtime:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile reference runtime
+        run: python -m py_compile runtimes/reference/process_runner.py
+      - name: Run reference runtime tests
+        run: python -m unittest discover -s tests/runtime -p "test_*.py"
+
+  adapter-contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run adapter tests
+        run: python -m unittest discover -s tests/adapters -p "test_*.py"
+
+  gpjk-fixture-shape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate GPJK fixture shape
+        run: python conformance/integrations/gpjk/run-fixture-shape.py
+
+  gpjk-reference-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run GPJK reference conformance
+        run: python conformance/integrations/gpjk/run-reference.py
+      - name: Upload execution report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gpjk-reference-conformance-report
+          path: conformance/integrations/gpjk/reports/core-reference-latest.json
+
+  contract-invariants:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run core contract invariant tests
+        run: python -m unittest discover -s tests/contracts -p "test_*.py"

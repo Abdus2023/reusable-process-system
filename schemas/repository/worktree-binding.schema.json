@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Abdus2023/reusable-process-system/schema/repository/worktree-binding.schema.json",
+  "type": "object",
+  "required": ["schema", "status", "clean"],
+  "properties": {
+    "schema": {"const": "reusable-process-system.worktree-binding/1"},
+    "status": {"enum": ["CLEAN", "DIRTY", "NOT_OBSERVABLE", "MISMATCH", "BOUND"]},
+    "clean": {"type": "boolean"},
+    "reason": {"type": "string"}
+  },
+  "additionalProperties": false
+}
