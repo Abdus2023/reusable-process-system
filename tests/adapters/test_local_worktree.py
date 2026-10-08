@@ -92,9 +92,13 @@ class LocalWorktreeBindingTests(unittest.TestCase):
                 ["git", "rev-parse", "HEAD"],
                 cwd=cwd, check=True, capture_output=True, text=True
             ).stdout.strip()
+            tree = subprocess.run(
+                ["git", "rev-parse", "HEAD^{tree}"],
+                cwd=cwd, check=True, capture_output=True, text=True
+            ).stdout.strip()
             result = validate_execution_target(
                 cwd,
-                snapshot={"repository": "example/repo", "commit": commit, "tree": "unused"},
+                snapshot={"repository": "example/repo", "commit": commit, "tree": tree},
             )
             self.assertEqual(result["status"], "BOUND")
             (cwd / "file.txt").write_text("changed\n", encoding="utf-8")
