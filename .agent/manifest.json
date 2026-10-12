@@ -1,0 +1,53 @@
+{
+  "name": "reusable-process-system-tunisian-creator-research",
+  "version": "0.1.0",
+  "status": "PROVISIONAL",
+  "repository": "Abdus2023/reusable-process-system",
+  "branch": "agent/tunisian-creator-research-processes",
+  "purpose": "Reusable skills, contracts, tools, tests, and a profile for evidence-based research of Tunisian content creators.",
+  "core_rules": [
+    "NO EVIDENCE -> NO VERIFIED CLAIM",
+    "OBSERVED != DERIVED != VERIFIED != EXECUTED",
+    "preserve-continuity",
+    "target-count-does-not-override-evidence"
+  ],
+  "skills": [
+    "skill-creator",
+    "creator-research-orchestrator",
+    "multilingual-discovery",
+    "identity-resolution",
+    "evidence-ledger",
+    "channel-metrics",
+    "content-audit",
+    "collaboration-mapping",
+    "credibility-audit",
+    "audience-analysis",
+    "release-audit"
+  ],
+  "tools": [
+    "tools/validate_directory.py",
+    "tools/summarize_directory.py"
+  ],
+  "contracts": [
+    "contracts/creator-record.schema.json",
+    "contracts/evidence-record.schema.json",
+    "contracts/research-state.schema.json"
+  ],
+  "tests": [
+    "tests/test_validate_directory.py",
+    "tests/test_summarize_directory.py",
+    "tests/fixtures/creators.valid.json",
+    "tests/fixtures/creators.invalid.json"
+  ],
+  "profile": "profiles/tunisian-creator-research/PROFILE.md",
+  "prompt_library": "profiles/tunisian-creator-research/prompt-library.md",
+  "workflow": "workflows/tunisian-creator-research.yaml",
+  "validation": {
+    "runtime": "Python standard library only",
+    "local_tests": "11 unit tests passed in GitHub Actions run 38291685036; fixture validator and summary commands also passed.",
+    "ci": "PASS for tested commit 8caa5d5024b9ba6ffc30d11f322ad8c1a7918865",
+    "ci_run_url": "https://github.com/Abdus2023/reusable-process-system/actions/runs/38291685036",
+    "scope_limit": "CI validates deterministic tool behavior and fixtures, not external creator identities or source truth."
+  },
+  "release_decision": "PARTIALLY_READY"
+}

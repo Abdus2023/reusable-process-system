@@ -1,0 +1,27 @@
+name: Agent Process Pack Tests
+
+on:
+  push:
+    branches:
+      - agent/tunisian-creator-research-processes
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run unit tests
+        run: python -m unittest discover -s .agent/tests -v
+      - name: Validate positive fixture
+        run: python .agent/tools/validate_directory.py .agent/tests/fixtures/creators.valid.json
+      - name: Validate summary output
+        run: python .agent/tools/summarize_directory.py .agent/tests/fixtures/creators.valid.json

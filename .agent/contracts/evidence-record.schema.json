@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Claim-linked Evidence Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "evidence_id",
+    "claim_id",
+    "source_url",
+    "source_type",
+    "evidence_type",
+    "observed_at",
+    "supports_claim"
+  ],
+  "properties": {
+    "evidence_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "claim_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "source_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_type": {
+      "enum": [
+        "DIRECT",
+        "CORROBORATING",
+        "CONTEXTUAL",
+        "CONTRADICTORY",
+        "INACCESSIBLE"
+      ]
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "published_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "supports_claim": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observation_method": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_independence_note": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "content_hash": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "review_status": {
+      "enum": [
+        "UNREVIEWED",
+        "REVIEWED",
+        "CONFLICTED",
+        "UNAVAILABLE"
+      ]
+    }
+  }
+}
