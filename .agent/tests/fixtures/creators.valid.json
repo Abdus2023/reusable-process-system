@@ -1,0 +1,25 @@
+{
+  "creators": [
+    {
+      "creator_id": "TN-0001",
+      "display_name": "Example Creator",
+      "entity_type": "individual",
+      "record_status": "VERIFIED",
+      "source_urls": [
+        "https://example.org/source"
+      ],
+      "identity_evidence_urls": [
+        "https://example.org/channel"
+      ],
+      "tunisia_connection_evidence": [
+        "https://example.org/about"
+      ],
+      "last_verified_date": "2026-10-12",
+      "primary_platform": "YouTube",
+      "primary_platform_url": "https://www.youtube.com/@example",
+      "subscriber_count": 100,
+      "metric_observation_date": "2026-10-12",
+      "confidence_level": "HIGH"
+    }
+  ]
+}
