@@ -1,0 +1,42 @@
+workflow:
+  id: tunisian-creator-research
+  version: "0.1.0"
+  status: PROVISIONAL
+  objective: "Create a traceable directory targeting 100 distinct Tunisian content creators."
+  governing_rules:
+    - "NO EVIDENCE -> NO VERIFIED CLAIM"
+    - "OBSERVED != DERIVED != VERIFIED != EXECUTED"
+    - "target count never overrides evidence requirements"
+    - "preserve stable IDs and continuation state"
+  phases:
+    - {id: scope, skill: creator-research-orchestrator, output: scope-and-inclusion-criteria}
+    - {id: discover, skill: multilingual-discovery, output: candidate-ledger-and-query-log}
+    - {id: resolve_identity, skill: identity-resolution, output: canonical-entities-and-channel-links}
+    - {id: evidence, skill: evidence-ledger, output: claim-linked-source-ledger}
+    - {id: metrics, skill: channel-metrics, optional: true, output: dated-metric-snapshot}
+    - {id: content, skill: content-audit, optional: true, output: sampled-content-profile}
+    - {id: collaborations, skill: collaboration-mapping, optional: true, output: evidence-backed-edge-list}
+    - {id: credibility, skill: credibility-audit, optional: true, output: claim-verification-ledger}
+    - {id: audience, skill: audience-analysis, optional: true, output: bounded-comment-analysis}
+    - {id: release, skill: release-audit, output: quality-gates-and-release-decision}
+  record_statuses: [VERIFIED, PARTIALLY_VERIFIED, UNVERIFIED, EXCLUDED]
+  release_decisions: [READY_FOR_PUBLICATION, PARTIALLY_READY, BLOCKED]
+  release_gates:
+    - unique_stable_ids
+    - duplicate_check
+    - direct_identity_evidence
+    - direct_tunisia_connection_evidence
+    - channel_association_evidence
+    - dated_metrics
+    - claim_source_mapping
+    - unresolved_conflicts_visible
+    - status_counts_reconciled
+    - verified_subset_isolated
+    - export_consistency
+    - continuation_state_updated
+  tools:
+    - ".agent/tools/validate_directory.py"
+  execution_policy:
+    external_source_checks: "must be observed and logged; schema validation is not factual verification"
+    ci: "NOT_OBSERVED until a real CI result is inspected"
+    unexecuted_checks: "mark NOT_EXECUTED; do not imply success"
