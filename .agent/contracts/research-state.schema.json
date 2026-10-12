@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Research Continuation State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "updated_at",
+    "current_phase",
+    "completed_phases",
+    "open_issues",
+    "next_action",
+    "record_counts"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "current_phase": {
+      "type": "string",
+      "minLength": 1
+    },
+    "completed_phases": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "open_issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "issue_id",
+          "description",
+          "status"
+        ],
+        "properties": {
+          "issue_id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "OPEN",
+              "IN_PROGRESS",
+              "BLOCKED",
+              "RESOLVED"
+            ]
+          },
+          "related_creator_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "next_action": {
+      "type": "string",
+      "minLength": 1
+    },
+    "record_counts": {
+      "type": "object",
+      "required": [
+        "VERIFIED",
+        "PARTIALLY_VERIFIED",
+        "UNVERIFIED",
+        "EXCLUDED"
+      ],
+      "properties": {
+        "VERIFIED": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "PARTIALLY_VERIFIED": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "UNVERIFIED": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "EXCLUDED": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
