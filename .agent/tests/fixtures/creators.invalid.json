@@ -1,0 +1,16 @@
+{
+  "creators": [
+    {
+      "creator_id": "bad id",
+      "display_name": "Missing evidence",
+      "entity_type": "person",
+      "record_status": "VERIFIED",
+      "source_urls": [
+        "not a url"
+      ],
+      "identity_evidence_urls": [],
+      "tunisia_connection_evidence": [],
+      "subscriber_count": 10
+    }
+  ]
+}
