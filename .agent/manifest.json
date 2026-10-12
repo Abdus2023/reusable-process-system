@@ -1,0 +1,43 @@
+{
+  "name": "reusable-process-system-tunisian-creator-research",
+  "version": "0.1.0",
+  "status": "PROVISIONAL",
+  "repository": "Abdus2023/reusable-process-system",
+  "branch": "agent/tunisian-creator-research-processes",
+  "purpose": "Reusable skills, contracts, tools, tests, and a profile for evidence-based research of Tunisian content creators.",
+  "core_rules": [
+    "NO EVIDENCE -> NO VERIFIED CLAIM",
+    "OBSERVED != DERIVED != VERIFIED != EXECUTED",
+    "preserve-continuity",
+    "target-count-does-not-override-evidence"
+  ],
+  "skills": [
+    "skill-creator",
+    "creator-research-orchestrator",
+    "multilingual-discovery",
+    "identity-resolution",
+    "evidence-ledger",
+    "channel-metrics",
+    "content-audit",
+    "collaboration-mapping",
+    "credibility-audit",
+    "audience-analysis",
+    "release-audit"
+  ],
+  "tools": [
+    "tools/validate_directory.py"
+  ],
+  "contracts": [
+    "contracts/creator-record.schema.json",
+    "contracts/evidence-record.schema.json",
+    "contracts/research-state.schema.json"
+  ],
+  "profile": "profiles/tunisian-creator-research/PROFILE.md",
+  "workflow": "workflows/tunisian-creator-research.yaml",
+  "validation": {
+    "runtime": "Python standard library only",
+    "local_tests": "present; execution status must be recorded separately",
+    "ci": "NOT_OBSERVED"
+  },
+  "release_decision": "BLOCKED_PENDING_EXECUTION_EVIDENCE"
+}
