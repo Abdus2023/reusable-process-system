@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/reusable-process-system/creator-record.schema.json",
+  "title": "Creator Record",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "creator_id",
+    "display_name",
+    "entity_type",
+    "record_status",
+    "source_urls"
+  ],
+  "properties": {
+    "creator_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "known_aliases": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "entity_type": {
+      "enum": [
+        "individual",
+        "group",
+        "channel_brand",
+        "media_organization",
+        "other"
+      ]
+    },
+    "primary_language": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "other_languages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "content_categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tunisia_connection": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "tunisia_connection_evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "primary_platform": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "primary_platform_url": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uri"
+    },
+    "official_youtube_channel": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uri"
+    },
+    "other_verified_profiles": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "identity_evidence_urls": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "source_urls": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "last_upload_date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "subscriber_count": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "total_views": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "recent_video_sample": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "recent_performance_metrics": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "collaboration_evidence": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "content_analysis_reference": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "fact_checking_reference": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "audience_analysis_reference": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "metric_observation_date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "record_status": {
+      "enum": [
+        "VERIFIED",
+        "PARTIALLY_VERIFIED",
+        "UNVERIFIED",
+        "EXCLUDED"
+      ]
+    },
+    "confidence_level": {
+      "enum": [
+        "HIGH",
+        "MEDIUM",
+        "LOW",
+        "NOT_ASSESSED"
+      ]
+    },
+    "unresolved_questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "last_verified_date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "source_log_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "change_log": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "record_status": {
+            "const": "VERIFIED"
+          }
+        },
+        "required": [
+          "record_status"
+        ]
+      },
+      "then": {
+        "required": [
+          "identity_evidence_urls",
+          "tunisia_connection_evidence",
+          "last_verified_date"
+        ]
+      }
+    }
+  ]
+}
