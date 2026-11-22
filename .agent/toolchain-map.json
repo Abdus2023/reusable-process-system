@@ -1,0 +1,160 @@
+{
+  "schema_version": "1.0.0",
+  "workspace_id": "reusable-process-engineering-system",
+  "repository": "Abdus2023/reusable-process-system",
+  "branch": "main",
+  "nodes": [
+    {
+      "id": "skill-creator",
+      "kind": "skill",
+      "path": ".agent/skills/skill-creator/SKILL.md"
+    },
+    {
+      "id": "process-discovery-and-extraction",
+      "kind": "skill",
+      "path": ".agent/skills/process-discovery-and-extraction/SKILL.md"
+    },
+    {
+      "id": "process-specification-and-decomposition",
+      "kind": "skill",
+      "path": ".agent/skills/process-specification-and-decomposition/SKILL.md"
+    },
+    {
+      "id": "process-contract-and-composition",
+      "kind": "skill",
+      "path": ".agent/skills/process-contract-and-composition/SKILL.md"
+    },
+    {
+      "id": "process-evidence-conformance-release",
+      "kind": "skill",
+      "path": ".agent/skills/process-evidence-conformance-release/SKILL.md"
+    },
+    {
+      "id": "validate-skill",
+      "kind": "tool",
+      "path": ".agent/tools/validate_skill.py"
+    },
+    {
+      "id": "validate-skill-test",
+      "kind": "test",
+      "path": ".agent/tests/test_validate_skill.py"
+    },
+    {
+      "id": "reusable-process-engineering-lifecycle",
+      "kind": "workflow",
+      "path": ".agent/workflows/reusable-process-engineering-lifecycle.md"
+    },
+    {
+      "id": "skill-engineering-standard",
+      "kind": "standard",
+      "path": ".agent/standards/skill-engineering-standard-v1.md"
+    },
+    {
+      "id": "process-system-specification",
+      "kind": "specification",
+      "path": "specification/process-system.md"
+    },
+    {
+      "id": "extraction-manifest",
+      "kind": "migration-contract",
+      "path": "docs/migration/EXTRACTION-MANIFEST.md"
+    },
+    {
+      "id": "extraction-mapping",
+      "kind": "migration-contract",
+      "path": "docs/migration/EXTRACTION-MAPPING.md"
+    },
+    {
+      "id": "dependency-audit",
+      "kind": "audit",
+      "path": "docs/migration/DEPENDENCY-AUDIT.md"
+    },
+    {
+      "id": "semantic-boundary-review",
+      "kind": "audit",
+      "path": "docs/migration/SEMANTIC-BOUNDARY-REVIEW.md"
+    },
+    {
+      "id": "runtime-conformance-audit",
+      "kind": "audit",
+      "path": "docs/migration/RUNTIME-CONFORMANCE-AUDIT.md"
+    }
+  ],
+  "edges": [
+    {
+      "from": "skill-creator",
+      "to": "process-discovery-and-extraction",
+      "relation": "authors"
+    },
+    {
+      "from": "skill-creator",
+      "to": "process-specification-and-decomposition",
+      "relation": "authors"
+    },
+    {
+      "from": "skill-creator",
+      "to": "process-contract-and-composition",
+      "relation": "authors"
+    },
+    {
+      "from": "skill-creator",
+      "to": "process-evidence-conformance-release",
+      "relation": "authors"
+    },
+    {
+      "from": "process-system-specification",
+      "to": "process-specification-and-decomposition",
+      "relation": "defines-scope"
+    },
+    {
+      "from": "extraction-manifest",
+      "to": "process-discovery-and-extraction",
+      "relation": "governs"
+    },
+    {
+      "from": "extraction-mapping",
+      "to": "process-discovery-and-extraction",
+      "relation": "governs"
+    },
+    {
+      "from": "dependency-audit",
+      "to": "process-contract-and-composition",
+      "relation": "evidence-input"
+    },
+    {
+      "from": "semantic-boundary-review",
+      "to": "process-contract-and-composition",
+      "relation": "evidence-input"
+    },
+    {
+      "from": "runtime-conformance-audit",
+      "to": "process-evidence-conformance-release",
+      "relation": "evidence-input"
+    },
+    {
+      "from": "reusable-process-engineering-lifecycle",
+      "to": "process-discovery-and-extraction",
+      "relation": "uses"
+    },
+    {
+      "from": "reusable-process-engineering-lifecycle",
+      "to": "process-specification-and-decomposition",
+      "relation": "uses"
+    },
+    {
+      "from": "reusable-process-engineering-lifecycle",
+      "to": "process-contract-and-composition",
+      "relation": "uses"
+    },
+    {
+      "from": "reusable-process-engineering-lifecycle",
+      "to": "process-evidence-conformance-release",
+      "relation": "uses"
+    },
+    {
+      "from": "validate-skill-test",
+      "to": "validate-skill",
+      "relation": "tests"
+    }
+  ]
+}
