@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "workspace_id": "reusable-process-engineering-system",
+  "repository": "Abdus2023/reusable-process-system",
+  "branch": "main",
+  "authority": "generic-process-engineering-method-only",
+  "skills": [
+    {
+      "id": "skill-creator",
+      "path": "skills/skill-creator/SKILL.md",
+      "status": "DRAFT"
+    },
+    {
+      "id": "process-discovery-and-extraction",
+      "path": "skills/process-discovery-and-extraction/SKILL.md",
+      "status": "DRAFT"
+    },
+    {
+      "id": "process-specification-and-decomposition",
+      "path": "skills/process-specification-and-decomposition/SKILL.md",
+      "status": "DRAFT"
+    },
+    {
+      "id": "process-contract-and-composition",
+      "path": "skills/process-contract-and-composition/SKILL.md",
+      "status": "DRAFT"
+    },
+    {
+      "id": "process-evidence-conformance-release",
+      "path": "skills/process-evidence-conformance-release/SKILL.md",
+      "status": "DRAFT"
+    }
+  ],
+  "tools": [
+    {
+      "id": "validate-skill",
+      "path": "tools/validate_skill.py",
+      "status": "DRAFT"
+    }
+  ],
+  "workflows": [
+    "workflows/reusable-process-engineering-lifecycle.md"
+  ]
+}
